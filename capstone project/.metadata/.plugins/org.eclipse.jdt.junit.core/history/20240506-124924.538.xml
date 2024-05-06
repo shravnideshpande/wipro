@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="FlatServiceTest" project="flat-service" tests="6" started="6" failures="0" errors="1" ignored="0">
+  <testsuite name="com.capstonepro.flatservice.service.FlatServiceTest" time="0.653" displayname="FlatServiceTest" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]">
+    <testcase name="testSaveFlat" classname="com.capstonepro.flatservice.service.FlatServiceTest" time="0.365" displayname="testSaveFlat()" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]/[method:testSaveFlat()]"/>
+    <testcase name="testGetFlatById" classname="com.capstonepro.flatservice.service.FlatServiceTest" time="0.054" displayname="testGetFlatById()" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]/[method:testGetFlatById()]"/>
+    <testcase name="testUpdateFlat" classname="com.capstonepro.flatservice.service.FlatServiceTest" time="0.063" displayname="testUpdateFlat()" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]/[method:testUpdateFlat()]">
+      <error>com.capstonepro.flatservice.exception.FlatModulesNotFoundException: Tenant not existing with id: 101&#13;
+	at com.capstonepro.flatservice.service.FlatServiceImpl.updateFlat(FlatServiceImpl.java:62)&#13;
+	at com.capstonepro.flatservice.service.FlatServiceTest.testUpdateFlat(FlatServiceTest.java:153)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+    <testcase name="testDeleteFlatWithException" classname="com.capstonepro.flatservice.service.FlatServiceTest" time="0.032" displayname="testDeleteFlatWithException()" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]/[method:testDeleteFlatWithException()]"/>
+    <testcase name="testGetAllFlat" classname="com.capstonepro.flatservice.service.FlatServiceTest" time="0.03" displayname="testGetAllFlat()" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]/[method:testGetAllFlat()]"/>
+    <testcase name="testDeleteFlat" classname="com.capstonepro.flatservice.service.FlatServiceTest" time="0.042" displayname="testDeleteFlat()" uniqueid="[engine:junit-jupiter]/[class:com.capstonepro.flatservice.service.FlatServiceTest]/[method:testDeleteFlat()]"/>
+  </testsuite>
+</testrun>

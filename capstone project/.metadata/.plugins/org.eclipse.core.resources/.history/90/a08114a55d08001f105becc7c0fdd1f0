@@ -1,0 +1,15 @@
+package com.capstonepro.flatbookingservice.service;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.capstonepro.flatbookingservice.model.Tenant;
+
+@FeignClient(name="TENANT-SERVICE")
+public interface TenantServiceConsumer {
+
+	@GetMapping("/tenants/{tntid}")
+	 Tenant getTenantById(@PathVariable("tntid") int tntId);
+	
+}

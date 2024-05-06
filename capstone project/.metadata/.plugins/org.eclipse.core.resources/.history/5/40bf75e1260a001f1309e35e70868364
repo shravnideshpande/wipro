@@ -1,0 +1,151 @@
+package com.capstonepro.flatservice.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.flatservice.entity.Flat;
+import com.capstonepro.flatservice.entity.FlatAddress;
+import com.capstonepro.flatservice.repository.FlatRepository;
+
+@SpringBootTest
+public class FlatServiceTest {
+
+	@InjectMocks
+	private FlatServiceImpl flatService;
+
+	@Mock
+	private FlatRepository flatRepository;
+
+	@Test
+	public void testSaveFlat() {
+		Flat flats = new Flat();
+		FlatAddress flatAddress = new FlatAddress();
+		flats.setFlatId(101);
+		flats.setFlatCost(20000);
+		flats.setAvailabilityStatus("Available");
+		flats.setLandlordId(1);
+
+		flatAddress.setAddressId(101);
+		flatAddress.setCityName("Abd");
+		flatAddress.setHouseNum(1);
+		flatAddress.setLane("XYZ");
+		flatAddress.setStateName("ABC");
+		flatAddress.setCountryName("MNP");
+		flatAddress.setDisPin(105457);
+
+		when(flatRepository.save(flats)).thenReturn(flats);
+		Flat saveFlat = flatService.saveFlat(flats);
+		verify(flatRepository, times(1)).save(saveFlat);
+		assertEquals(flats.getFlatId(), flats.getFlatId());
+		assertNotNull(saveFlat);
+	}
+
+	@Test
+	public void testGetFlatById() {
+		Flat flats = new Flat();
+		FlatAddress flatAddress = new FlatAddress();
+		flats.setFlatId(101);
+		flats.setFlatCost(20000);
+		flats.setAvailabilityStatus("Available");
+		flats.setLandlordId(1);
+
+		flatAddress.setAddressId(101);
+		flatAddress.setCityName("Abd");
+		flatAddress.setHouseNum(1);
+		flatAddress.setLane("XYZ");
+		flatAddress.setStateName("ABC");
+		flatAddress.setCountryName("MNP");
+		flatAddress.setDisPin(105457);
+
+		when(flatRepository.findById(101)).thenReturn(Optional.of(flats));
+	}
+
+	@Test
+	public void testGetAllFlat() {
+		Flat flats = new Flat();
+		FlatAddress flatAddress = new FlatAddress();
+		flats.setFlatId(101);
+		flats.setFlatCost(20000);
+		flats.setAvailabilityStatus("Available");
+		flats.setLandlordId(1);
+
+		flatAddress.setAddressId(101);
+		flatAddress.setCityName("Abd");
+		flatAddress.setHouseNum(1);
+		flatAddress.setLane("XYZ");
+		flatAddress.setStateName("ABC");
+		flatAddress.setCountryName("MNP");
+		flatAddress.setDisPin(105457);
+
+		Flat flats1 = new Flat();
+		FlatAddress flatAddress1 = new FlatAddress();
+		flats1.setFlatId(102);
+		flats1.setFlatCost(15000);
+		flats1.setAvailabilityStatus("Available");
+		flats1.setLandlordId(3);
+
+		flatAddress1.setAddressId(102);
+		flatAddress1.setCityName("XAS");
+		flatAddress1.setHouseNum(2);
+		flatAddress1.setLane("SDE");
+		flatAddress1.setStateName("'lkj");
+		flatAddress1.setCountryName("UK");
+		flatAddress1.setDisPin(190290);
+
+		Flat flats2 = new Flat();
+		FlatAddress flatAddress2 = new FlatAddress();
+		flats2.setFlatId(103);
+		flats2.setFlatCost(21000);
+		flats2.setAvailabilityStatus("Available");
+		flats2.setLandlordId(3);
+
+		flatAddress2.setAddressId(103);
+		flatAddress2.setCityName("CDO");
+		flatAddress2.setHouseNum(3);
+		flatAddress2.setLane("JKL");
+		flatAddress2.setStateName("VGB");
+		flatAddress2.setCountryName("MZ");
+		flatAddress2.setDisPin(109298);
+
+		List<Flat> flatList = new ArrayList<>();
+		flatList.add(flats);
+		flatList.add(flats1);
+		flatList.add(flats2);
+
+	}
+	
+	@Test
+	public void updateFlatDetails() {
+		Flat flats = new Flat();
+		FlatAddress flatAddress = new FlatAddress();
+		flats.setFlatId(101);
+		flats.setFlatCost(20000);
+		flats.setAvailabilityStatus("Available");
+		flats.setLandlordId(1);
+
+		flatAddress.setAddressId(101);
+		flatAddress.setCityName("Abd");
+		flatAddress.setHouseNum(1);
+		flatAddress.setLane("XYZ");
+		flatAddress.setStateName("ABC");
+		flatAddress.setCountryName("MNP");
+		flatAddress.setDisPin(105457);
+		
+		when(flatRepository.findById(101)).thenReturn(Optional.of(flats));
+		when(flatRepository.save(flats)).thenReturn(flats);
+
+	}
+
+}

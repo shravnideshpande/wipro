@@ -1,0 +1,14 @@
+package com.abc.flatrental.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="flat_tbl")
+public class Flat {
+
+	private int flatno;
+	private String flatType;
+	private FlatAddress flatAddress;
+	private 
+}

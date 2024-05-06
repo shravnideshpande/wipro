@@ -1,0 +1,33 @@
+package com.capstonepro.admin.service;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.capstonepro.admin.modal.Flat;
+
+
+@FeignClient(name="flat-service")
+public interface FlatServiceConsumer {
+	
+	 @PostMapping("/flats/save")
+	 Flat addFlat(@RequestBody Flat flat);
+	 
+	@GetMapping("/flats/{id}")
+	Flat getFlatById(@PathVariable("id") int flatId);
+	
+	@PutMapping("/flats/update")
+	Flat updateFlat(@RequestBody Flat flat);
+	
+	@DeleteMapping("/flats/delete")
+	void deleteFlat(int flatId);
+	
+	@GetMapping("flats/all")
+	List<Flat> viewAllFlat();
+}

@@ -1,0 +1,40 @@
+package com.capstonepro.flatservice.service;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.flatservice.entity.Flat;
+import com.capstonepro.flatservice.entity.FlatAddress;
+import com.capstonepro.flatservice.repository.FlatRepository;
+
+@SpringBootTest
+public class FlatServiceTest {
+
+	@InjectMocks
+	private FlatServiceImpl  flatService;
+	
+	@Mock
+	private FlatRepository flatRepository;
+	
+	@Test
+	public void testSaveFlat() {
+		Flat flats = new Flat();
+		FlatAddress flatAddress = new FlatAddress();
+		flats.setFlatId(101);
+		flats.setFlatCost(20000);
+		flats.setAvailabilityStatus("Available");
+		flats.setLandlordId(1);
+
+		flatAddress.setAddressId(101);
+		flatAddress.setCityName("Abd");
+		flatAddress.setHouseNum(1);
+
+		when(bookRepository.save(book)).thenReturn(book);
+		BookEntity savebook = bookService.addBook(book);
+		verify(bookRepository, times(1)).save(book);
+		assertEquals(book.getBookId(), book.getBookId());
+		assertNotNull(savebook);
+	}
+}

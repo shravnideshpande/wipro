@@ -1,0 +1,5 @@
+package com.capstonepro.admin.controller;
+
+public class AdminController {
+
+}

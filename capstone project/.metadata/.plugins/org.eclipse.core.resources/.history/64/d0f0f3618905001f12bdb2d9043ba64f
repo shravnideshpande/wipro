@@ -1,0 +1,21 @@
+package com.abc.flatrental.entity;
+
+import java.util.List;
+
+import com.abc.flatrental.modal.FlatAddress;
+import com.abc.flatrental.modal.Flatfacilities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="flat_tbl")
+public class Flat {
+
+	private int flatno;
+	private String flatType;
+	private FlatAddress flatAddress;
+	private double flatCost;
+	private String AvailabilityStatus;
+	private List<Flatfacilities> facilities;
+}

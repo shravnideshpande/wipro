@@ -1,0 +1,33 @@
+package com.capstonepro.landlordservice.service;
+
+import java.util.List;
+
+
+import com.capstone.landlord.model.Flat;
+import com.capstone.landlord.model.Tenant;
+import com.capstonepro.landlordservice.entity.Landlord;
+
+public interface LandlordService {
+	
+	Landlord addLandlord(Landlord landlord);
+
+	Landlord updateLandlord(Landlord landlord);
+
+	void deleteLandlord(int landlordId);
+
+	Landlord viewLandlord(int landlordId);
+
+	List<Landlord> viewAllLandlords();
+	
+	Flat addFlat(Flat flat);
+	
+	void deleteFlat(int flatId);
+	
+	List<Flat> viewAllFlats();
+	
+	Tenant viewTenantById(int tenantId);
+	
+	void acceptBooking(int bookingId);
+	
+	void denyBooking(int bookingId);
+}

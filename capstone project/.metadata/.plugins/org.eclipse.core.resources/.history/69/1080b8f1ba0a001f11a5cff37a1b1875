@@ -1,0 +1,5 @@
+package com.capstonepro.apigateway.util;
+
+public class JwtUtil {
+
+}

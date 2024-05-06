@@ -1,0 +1,102 @@
+package com.capstonepro.flatbookingservice.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+
+import com.capstonepro.flatbookingservice.entity.FlatBooking;
+import com.capstonepro.flatbookingservice.exception.BookingModuleNotFoundException;
+import com.capstonepro.flatbookingservice.repository.FlatBookingRepository;
+@Service
+public class FlatBookingServiceImpl implements FlatBookingService {
+
+    @Autowired
+    private FlatBookingRepository flatBookingRepository;
+
+
+    @Override
+    public FlatBooking saveFlatBooking(FlatBooking flatBooking) {
+        flatBooking.setBookingDate(LocalDate.now());
+        flatBooking.setBookingStatus("pending");
+        flatBooking.setBookingFromDate(LocalDate.of(2024, 05, 06));
+        flatBooking.setBookingToDate(LocalDate.of(2025, 07, 17));
+        flatBooking.setBookingCancleDate(LocalDate.now());
+
+        flatBookingRepository.save(flatBooking);
+        return flatBooking;
+    }
+
+    @Override
+    public FlatBooking getBookingById(int bookingId) {
+        Optional<FlatBooking> optionalBooking = flatBookingRepository.findById(bookingId);
+        if (optionalBooking.isEmpty()) {
+            throw new BookingModuleNotFoundException("Flat booking does not exist with id" + bookingId);
+        }
+
+        FlatBooking fbooking = optionalBooking.get();
+        return fbooking;
+    }
+
+    @Override
+    public List<FlatBooking> getAllBooking() {
+        List<FlatBooking> fBookingList = flatBookingRepository.findAll();
+        return fBookingList;
+    }
+    @Override
+	public FlatBooking updateFlatBooking(FlatBooking flatBooking) {
+    	Optional<FlatBooking> optionalTenant = flatBookingRepository.findById(flatBooking.getTntId());
+		if (optionalTenant.isEmpty()) {
+			throw new BookingModuleNotFoundException("Tenant not existing with id: " + flatBooking.getTntId());
+
+		}
+		flatBookingRepository.save( flatBooking);
+		return  flatBooking;
+	}
+
+    @Override
+	public void deleteFlatBooking(int bookingId) {
+    	Optional<FlatBooking> optionalBooking= flatBookingRepository.findById(bookingId);
+		if (optionalBooking.isEmpty()) {
+			throw new BookingModuleNotFoundException("Booking with id does not exist"+bookingId);
+		}
+		FlatBooking fbooking = optionalBooking.get();
+		flatBookingRepository.delete(fbooking);
+		
+	}
+
+    @Override
+    public void acceptBooking(int bookingId) {
+        Optional<FlatBooking> optionalBooking = flatBookingRepository.findById(bookingId);
+        if (optionalBooking.isEmpty()) {
+            throw new BookingModuleNotFoundException("Flat booking does not exist with id" + bookingId);
+        }
+        FlatBooking flatBooking = optionalBooking.get();
+        flatBooking.setBookingStatus("Booking is accetpted for id"+bookingId);
+        flatBookingRepository.save(flatBooking);
+    }
+
+    @Override
+    public void denyBooking(int bookingId) {
+        Optional<FlatBooking> optionalBooking = flatBookingRepository.findById(bookingId);
+        if (optionalBooking.isEmpty()) {
+            throw new BookingModuleNotFoundException("Flat booking does not exist with id" + bookingId);
+        }
+        FlatBooking flatBooking = optionalBooking.get();
+        flatBooking.setBookingStatus("Booking denied with id "+bookingId);
+        flatBookingRepository.save(flatBooking);
+        
+    }
+
+	@Override
+	public String getBookingStatus(int bookingId) {
+		 Optional<FlatBooking> optionalBooking = flatBookingRepository.findById(bookingId);
+		    if (optionalBooking.isEmpty()) {
+		        throw new BookingModuleNotFoundException("Flat booking does not exist with id" + bookingId);
+		    }
+		    FlatBooking flatBooking = optionalBooking.get();
+		    return flatBooking.getBookingStatus();
+	}
+}

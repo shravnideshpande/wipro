@@ -1,0 +1,55 @@
+package com.capstonepro.tenantmoduleservice.service;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.tenantservice.entity.Tenant;
+import com.capstonepro.tenantservice.entity.TenantAddress;
+import com.capstonepro.tenantservice.repository.TenantRepository;
+import com.capstonepro.tenantservice.service.TenantServiceImpl;
+
+
+@SpringBootTest(properties = "eureka.client.enabled=false")
+public class TenantServiceTest {
+
+	@InjectMocks
+	private TenantServiceImpl tenantService;
+
+	@Mock
+	private TenantRepository tenantRepository;
+	
+	@Test
+	public void testAddTenant() {
+		Tenant tenants = new Tenant();
+		TenantAddress tPermananttAdd = new TenantAddress();
+		tenants.setTntId(1);
+		tenants.setTntFirstName("Henry");
+		tenants.setTntLastName("Carl");
+		tenants.setAge(28);
+		tenants.setContactNum("6754354201");
+		tenants.setIdPrrofType("Pan");
+		tenants.setIdPrrofNo("IBOPDA643M");
+		
+		tenantAddress.set
+		tenantAddress.setHouseNo(20);
+		tenantAddress.setCity("Ranchi");
+		tenantAddress.setCountry("India");
+		tenantAddress.setPin(987654);
+		tenantAddress.setState("Jharkhand");
+		tenantAddress.setStreet("Hec");
+		
+
+		when(tenantRepository.save(tenant)).thenReturn(tenant);
+
+		Tenant savedTenant = tenantService.addTenant(tenant);
+		
+		verify(tenantRepository, times(1)).save(tenant);
+		 assertEquals(tenant, savedTenant);
+		 assertEquals("Aman", savedTenant.getTenantName());
+		 assertEquals(22, savedTenant.getTenantAge());
+	}
+
+
+}

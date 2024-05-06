@@ -1,0 +1,16 @@
+package com.capstonepro.admin.service;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.capstonepro.admin.modal.Landlord;
+
+
+@FeignClient(name="LANDLORD-SERVICE")
+public interface LandlordServiceConsumer {
+
+	@PostMapping("/landlord/save")
+	Landlord addLandlord(@RequestBody Landlord landlord);
+	
+}

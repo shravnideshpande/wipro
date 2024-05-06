@@ -1,0 +1,8 @@
+package com.capstonepro.landlordservice.service;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(name="TENANT-SERVICE")
+public interface TenantServiceConsumer {
+
+}

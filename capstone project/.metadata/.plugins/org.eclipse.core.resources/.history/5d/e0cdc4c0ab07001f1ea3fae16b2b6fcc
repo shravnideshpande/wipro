@@ -1,0 +1,24 @@
+package com.capstone.flat.entity;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "flat_tbl")
+public class Flat {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name="flat_num",length=5)
+	private int flatNum;
+	private double flatCost;
+	@OneToOne(cascade = CascadeType.ALL)
+    private FlatAddress flatAddress;
+    private String availability;
+
+}

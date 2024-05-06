@@ -1,0 +1,5 @@
+package com.abc.flatrental.repository;
+
+public interface FlatRentalRepository {
+
+}

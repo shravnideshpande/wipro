@@ -1,0 +1,29 @@
+package com.capstonepro.admin.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capstonepro.admin.service.FlatBookingConsumer;
+import com.capstonepro.admin.service.FlatServiceConsumer;
+import com.capstonepro.admin.service.LandlordServiceConsumer;
+import com.capstonepro.admin.service.TenantServiceConsumer;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+	
+	@Autowired
+ private FlatServiceConsumer flatService;
+	
+	@Autowired
+	private LandlordServiceConsumer landlordService;
+	
+	@Autowired
+	private TenantServiceConsumer tenantService;
+	
+	@Autowired
+	private FlatBookingConsumer flatBookingService;
+	
+
+}

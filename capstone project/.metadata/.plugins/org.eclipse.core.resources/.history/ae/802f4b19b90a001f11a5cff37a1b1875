@@ -1,0 +1,5 @@
+package com.capstonepro.apigateway.config;
+
+public class AppConfiguration {
+
+}

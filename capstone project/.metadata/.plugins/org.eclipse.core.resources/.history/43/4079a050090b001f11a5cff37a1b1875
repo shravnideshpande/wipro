@@ -1,0 +1,23 @@
+package com.capstonepro.admin.service;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.capstonepro.admin.modal.Tenant;
+
+@FeignClient(name="TENANT-SERVICE")
+public interface TenantServiceConsumer {
+	
+	@PostMapping("/tenants/save")
+	Tenant addTenant(@RequestBody Tenant tenant);
+
+	@GetMapping("/tenants/all")
+	List<Tenant> viewAllTenant();
+	
+	@
+}

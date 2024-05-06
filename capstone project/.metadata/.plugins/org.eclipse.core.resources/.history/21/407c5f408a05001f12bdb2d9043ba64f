@@ -1,0 +1,5 @@
+package com.abc.flatrental.exception;
+
+public class ResourcesNotFoundException {
+
+}

@@ -1,0 +1,255 @@
+package com.capstonepro.tenantservice.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.tenantservice.entity.Tenant;
+import com.capstonepro.tenantservice.entity.TenantAddress;
+import com.capstonepro.tenantservice.exception.TenantModuleNotFoundException;
+import com.capstonepro.tenantservice.repository.TenantRepository;
+
+@SpringBootTest(properties = "eureka.client.enabled=false")
+public class TenantServiceTest {
+
+	@InjectMocks
+	private TenantServiceImpl tenantService;
+
+	@Mock
+	private TenantRepository tenantRepository;
+
+	@Test
+	public void testAddTenant() {
+		Tenant tenants = new Tenant();
+		TenantAddress tPermanantAdd = new TenantAddress();
+		tenants.setTntId(1);
+		tenants.setTntFirstName("Henry");
+		tenants.setTntLastName("Carl");
+		tenants.setAge(28);
+		tenants.setContactNum("6754354201");
+		tenants.setIdPrrofType("Pan");
+		tenants.setIdPrrofNo("IBOPDA643M");
+
+		tPermanantAdd.setAddressId(1);
+		tPermanantAdd.setHouseNum(10);
+		tPermanantAdd.setLane("SMD");
+		tPermanantAdd.setCityName("Covey");
+		tPermanantAdd.setStateName("London");
+		tPermanantAdd.setCountryName("Uk");
+		tPermanantAdd.setDiscPin(180925);
+
+		when(tenantRepository.save(tenants)).thenReturn(tenants);
+
+		Tenant saveTenants = tenantService.saveTenant(tenants);
+
+		verify(tenantRepository, times(1)).save(tenants);
+		assertEquals(tenants, saveTenants);
+		assertEquals("Henry", saveTenants.getTntFirstName());
+		assertEquals("Carl", saveTenants.getTntLastName());
+		assertEquals(28, saveTenants.getAge());
+	}
+
+	@Test
+	public void testGetTenantById() {
+
+		Tenant tenants = new Tenant();
+		TenantAddress tPermanantAdd = new TenantAddress();
+		tenants.setTntId(1);
+		tenants.setTntFirstName("Henry");
+		tenants.setTntLastName("Carl");
+		tenants.setAge(28);
+		tenants.setContactNum("6754354201");
+		tenants.setIdPrrofType("Pan");
+		tenants.setIdPrrofNo("IBOPDA643M");
+
+		tPermanantAdd.setAddressId(1);
+		tPermanantAdd.setHouseNum(10);
+		tPermanantAdd.setLane("SMD");
+		tPermanantAdd.setCityName("Covey");
+		tPermanantAdd.setStateName("London");
+		tPermanantAdd.setCountryName("Uk");
+		tPermanantAdd.setDiscPin(180925);
+
+		when(tenantRepository.findById(1)).thenReturn(Optional.of(tenants));
+		Tenant tenants1 = tenantService.getTenantById(1);
+		assertEquals("Henry", tenants1.getTntFirstName());
+		assertEquals("Carl", tenants1.getTntLastName());
+	}
+
+	@Test
+	public void testGetAllTenants() {
+
+		Tenant tenant = new Tenant();
+		TenantAddress tPermanantAdd = new TenantAddress();
+		tenant.setTntId(1);
+		tenant.setTntFirstName("Henry");
+		tenant.setTntLastName("Carl");
+		tenant.setAge(28);
+		tenant.setContactNum("6754354201");
+		tenant.setIdPrrofType("Pan");
+		tenant.setIdPrrofNo("IBOPDA643M");
+
+		tPermanantAdd.setAddressId(1);
+		tPermanantAdd.setHouseNum(10);
+		tPermanantAdd.setLane("SMD");
+		tPermanantAdd.setCityName("Covey");
+		tPermanantAdd.setStateName("London");
+		tPermanantAdd.setCountryName("Uk");
+		tPermanantAdd.setDiscPin(180925);
+
+		Tenant tenant1 = new Tenant();
+		TenantAddress tPermanantAdd1 = new TenantAddress();
+		tenant1.setTntId(2);
+		tenant1.setTntFirstName("Jhon");
+		tenant1.setTntLastName("Doe");
+		tenant1.setAge(56);
+		tenant1.setContactNum("7656543876");
+		tenant1.setIdPrrofType("Pan");
+		tenant1.setIdPrrofNo("IBNGHT643M");
+
+		tPermanantAdd1.setAddressId(2);
+		tPermanantAdd1.setHouseNum(20);
+		tPermanantAdd1.setLane("FGd");
+		tPermanantAdd1.setCityName("GGy");
+		tPermanantAdd1.setStateName("LMY");
+		tPermanantAdd1.setCountryName("USA");
+		tPermanantAdd1.setDiscPin(786543);
+
+		Tenant tenant2 = new Tenant();
+		TenantAddress tPermanantAdd2 = new TenantAddress();
+		tenant2.setTntId(3);
+		tenant2.setTntFirstName("Carol");
+		tenant2.setTntLastName("Smit");
+		tenant2.setAge(33);
+		tenant2.setContactNum("6755098765");
+		tenant2.setIdPrrofType("Addhar");
+		tenant2.setIdPrrofNo("1234XXXX1234");
+
+		tPermanantAdd2.setAddressId(3);
+		tPermanantAdd2.setHouseNum(30);
+		tPermanantAdd2.setLane("HGF");
+		tPermanantAdd2.setCityName("FDS");
+		tPermanantAdd2.setStateName("USb");
+		tPermanantAdd2.setCountryName("Srgt");
+		tPermanantAdd2.setDiscPin(453231);
+
+		List<Tenant> tenantList = new ArrayList<>();
+		tenantList.add(tenant);
+		tenantList.add(tenant1);
+		tenantList.add(tenant2);
+
+		when(tenantRepository.findAll()).thenReturn(tenantList);
+
+		List<Tenant> tntList = tenantService.getAllTenants();
+		assertEquals(3, tntList.size());
+
+	}
+
+	@Test
+	public void testUpdateTnt() {
+
+		Tenant tenant1 = new Tenant();
+		TenantAddress tPermanantAdd1 = new TenantAddress();
+		tenant1.setTntId(2);
+		tenant1.setTntFirstName("Jhon");
+		tenant1.setTntLastName("Doe");
+		tenant1.setAge(56);
+		tenant1.setContactNum("7656543876");
+		tenant1.setIdPrrofType("Pan");
+		tenant1.setIdPrrofNo("IBNGHT643M");
+
+		tPermanantAdd1.setAddressId(2);
+		tPermanantAdd1.setHouseNum(20);
+		tPermanantAdd1.setLane("FGd");
+		tPermanantAdd1.setCityName("GGy");
+		tPermanantAdd1.setStateName("LMY");
+		tPermanantAdd1.setCountryName("USA");
+		tPermanantAdd1.setDiscPin(786543);
+
+		when(tenantRepository.findById(2)).thenReturn(Optional.of(tenant1));
+		when(tenantRepository.save(tenant1)).thenReturn(tenant1);
+
+		tenant1.setAge(34);
+
+		Tenant updateTenant = tenantService.updateTenantDetails(tenant1);
+
+		verify(tenantRepository, times(1)).findById(2);
+		verify(tenantRepository, times(1)).save(tenant1);
+		assertEquals(tenant1, updateTenant);
+		assertEquals(34, updateTenant.getAge());
+
+	}
+
+	@Test
+	public void testDeleteTnt() {
+
+		Tenant tenant1 = new Tenant();
+		TenantAddress tPermanantAdd1 = new TenantAddress();
+		tenant1.setTntId(2);
+		tenant1.setTntFirstName("Jhon");
+		tenant1.setTntLastName("Doe");
+		tenant1.setAge(56);
+		tenant1.setContactNum("7656543876");
+		tenant1.setIdPrrofType("Pan");
+		tenant1.setIdPrrofNo("IBNGHT643M");
+
+		tPermanantAdd1.setAddressId(2);
+		tPermanantAdd1.setHouseNum(20);
+		tPermanantAdd1.setLane("FGd");
+		tPermanantAdd1.setCityName("GGy");
+		tPermanantAdd1.setStateName("LMY");
+		tPermanantAdd1.setCountryName("USA");
+		tPermanantAdd1.setDiscPin(786543);
+
+		when(tenantRepository.findById(2)).thenReturn(Optional.of(tenant1));
+
+		doNothing().when(tenantRepository).delete(tenant1);
+
+		tenantService.deleteTenant(2);
+
+		verify(tenantRepository, times(1)).findById(2);
+		verify(tenantRepository, times(1)).delete(tenant1);
+
+	}
+
+	@Test
+	public void testDeleteTntWihException() {
+		Tenant tenant1 = new Tenant();
+		TenantAddress tPermanantAdd1 = new TenantAddress();
+		tenant1.setTntId(2);
+		tenant1.setTntFirstName("Jhon");
+		tenant1.setTntLastName("Doe");
+		tenant1.setAge(56);
+		tenant1.setContactNum("7656543876");
+		tenant1.setIdPrrofType("Pan");
+		tenant1.setIdPrrofNo("IBNGHT643M");
+
+		tPermanantAdd1.setAddressId(2);
+		tPermanantAdd1.setHouseNum(20);
+		tPermanantAdd1.setLane("FGd");
+		tPermanantAdd1.setCityName("GGy");
+		tPermanantAdd1.setStateName("LMY");
+		tPermanantAdd1.setCountryName("USA");
+		tPermanantAdd1.setDiscPin(786543);
+
+		when(tenantRepository.findById(20))
+				.thenThrow(new TenantModuleNotFoundException("Tenant is not existing with id:20"));
+
+		assertThrows(TenantModuleNotFoundException.class, () -> tenantService.deleteTenant(10));
+
+		verify(tenantRepository, times(0)).delete(tenant1);
+	}
+
+}

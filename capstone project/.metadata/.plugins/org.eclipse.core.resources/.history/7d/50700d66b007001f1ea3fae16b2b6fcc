@@ -1,0 +1,13 @@
+package com.capstone.flat.exception;
+
+public class MeasureNotFoundException extends RuntimeException {
+	
+	public MeasureNotFoundException() {
+		
+	}
+	
+	public MeasureNotFoundException(String msg) {
+		super(msg);
+	}
+
+}

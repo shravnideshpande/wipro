@@ -1,0 +1,15 @@
+package com.capstonepro.landlordservice.service;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.capstonepro.landlordservice.model.FlatBooking;
+
+@FeignClient(name = "FLAT-SERVICE")
+public interface FlatServiceConsumer {
+
+	 @PostMapping("/flats/save")
+	    FlatBooking acceptBooking(@PathVariable("id") int bookingId);
+	    
+}

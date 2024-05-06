@@ -1,0 +1,17 @@
+package com.capstonepro.flatservice.service;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.flatservice.repository.FlatRepository;
+
+@SpringBootTest
+public class FlatServiceTest {
+
+	@InjectMocks
+	private FlatServiceImpl  flatService;
+	
+	@Mock
+	private FlatRepository flatRepository;
+}

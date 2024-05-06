@@ -1,0 +1,176 @@
+package com.capstone.landlord.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.landlordservice.entity.Landlord;
+import com.capstonepro.landlordservice.exceptions.LandlordNotFoundException;
+import com.capstonepro.landlordservice.repository.LandlordRepository;
+import com.capstonepro.landlordservice.service.LandlordServiceImpl;
+
+@SpringBootTest
+public class LandlordServiceTest {
+
+	@InjectMocks
+	private LandlordServiceImpl landlordService;
+
+	@Mock
+	private LandlordRepository landlordRepository;
+
+	@Test
+	public void testAddLandlord() {
+		Landlord landlords = new Landlord();
+		landlords.setLandlordId(2);
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setLandlordLastName("Doe");
+		landlords.setDob(LocalDate.now());
+
+		when(landlordRepository.save(landlords)).thenReturn(landlords);
+
+		Landlord addLandlords = landlordService.addLandlord(landlords);
+
+		verify(landlordRepository, times(1)).save(landlords);
+		assertEquals(landlords, addLandlords);
+		assertEquals(2, addLandlords.getLandlordId());
+		assertEquals("Jhon", addLandlords.getLandlordFirstName());
+		assertEquals("Doe", addLandlords.getLandlordLastName());
+	}
+
+	@Test
+	public void testviewLandlordById() {
+		Landlord landlords = new Landlord();
+		landlords.setLandlordId(2);
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setLandlordLastName("Doe");
+		landlords.setAge(30);
+		landlords.setContactNum("8787542341");
+
+		when(landlordRepository.findById(1)).thenReturn(Optional.of(landlords));
+		Landlord actualObj = landlordService.addLandlord(landlords);
+		assertEquals("Jhon", actualObj.getLandlordFirstName());
+		assertEquals("Doe", actualObj.getLandlordLastName());
+		assertEquals(2, actualObj.getLandlordId());
+	}
+
+	@Test
+	public void testViewLandlordByIdException() {
+
+		Landlord landlords = new Landlord();
+		landlords.setLandlordId(2);
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setLandlordLastName("Doe");
+		landlords.setAge(29);
+		landlords.setContactNum("8976545664");
+
+		when(landlordRepository.findById(10))
+				.thenThrow(new LandlordNotFoundException("Landlord is not existing with id:10"));
+		assertThrows(LandlordNotFoundException.class, () -> landlordService.addLandlord(landlords));
+	}
+
+	@Test
+	public void testViewAllLandlords() {
+
+		Landlord landlord = new Landlord();
+		landlord.setLandlordId(1);
+		landlord.setLandlordFirstName("Aman");
+		landlord.setLandlordAge(22);
+		landlord.setMobileNo("9519131321");
+		landlord.setEmail("aman@xyz.com");
+
+		Landlord landlord2 = new Landlord();
+		landlord2.setLandlordId(2);
+		landlord2.setLandlordFirstName("John");
+		landlord2.setLandlordAge(24);
+		landlord2.setMobileNo("7418529630");
+		landlord2.setEmail("john@xyz.com");
+
+		Landlord landlord3 = new Landlord();
+		landlord3.setLandlordId(3);
+		landlord3.setLandlordFirstName("Jenny");
+		landlord3.setLandlordAge(21);
+		landlord3.setMobileNo("7412329630");
+		landlord3.setEmail("jenny@xyz.com");
+
+		List<Landlord> landlords = new ArrayList<>();
+		landlords.add(landlord1);
+		landlords.add(landlord2);
+		landlords.add(landlord3);
+
+		when(landlordRepository.findAll()).thenReturn(landlords);
+
+		List<Landlord> landlordList = landlordService.viewAllLandlords();
+		assertEquals(3, landlordList.size());
+
+	}
+
+	@Test
+	public void testUpdateLandlord() {
+		Landlord landlords = new Landlord();
+		landlords.setLandlordId(2);
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setLandlordLastName("Doe");
+		landlords.setAge(39);
+		landlords.setContactNum("7654326254");
+
+		when(landlordRepository.findById(1)).thenReturn(Optional.of(landlords));
+		when(landlordRepository.save(landlords)).thenReturn(landlords);
+
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setLandlordLastName("Doe");
+		landlords.setAge(45);
+
+		Landlord updatedLandlordDet = landlordService.updateLandlordDetails(landlords);
+
+		verify(landlordRepository, times(1)).findById(1);
+		verify(landlordRepository, times(1)).save(landlords);
+		assertEquals(landlords, updatedLandlordDet);
+		assertEquals(23, updatedLandlordDet.getAge());
+
+	}
+
+	@Test
+	public void testUpdateLandlordWithException() {
+		Landlord landlords = new Landlord();
+		landlords.setLandlordId(2);
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setAge(32);
+		landlords.setContactNum("4675672709");
+
+		when(landlordRepository.findById(2)).thenReturn(Optional.empty());
+
+		assertThrows(LandlordNotFoundException.class, () -> landlordService.updateLandlordDetails(landlords));
+		verify(landlordRepository, times(1)).findById(1);
+		verify(landlordRepository, times(0)).save(landlords);
+	}
+
+	@Test
+	void testDeleteLandlord() {
+		Landlord landlords = new Landlord();
+		landlords.setLandlordId(2);
+		landlords.setLandlordFirstName("Jhon");
+		landlords.setLandlordLastName("Doe");
+		landlords.setAge(22);
+		landlords.setContactNum("6754543265");
+
+		when(landlordRepository.findById(1)).thenReturn(Optional.of(landlords));
+		doNothing().when(landlordRepository).delete(landlords);
+
+		landlordService.deleteLandlord(1);
+		;
+		verify(landlordRepository, times(1)).findById(1);
+		verify(landlordRepository, times(1)).delete(landlords);
+
+	}
+}

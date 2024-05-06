@@ -1,0 +1,13 @@
+spring.application.name=flat-service
+
+server.port = 9192
+
+spring.datasource.url = jdbc:oracle:thin:@localhost:1521:XE
+spring.datasource.username = c##flatservice
+spring.datasource.password = fservice123
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=create
+
+
+

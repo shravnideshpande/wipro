@@ -1,0 +1,8 @@
+package com.capstonepro.landlordservice.service;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+@FeignClient(name = "FLAT-SERVICE")
+public interface FlatServiceConsumer {
+
+}

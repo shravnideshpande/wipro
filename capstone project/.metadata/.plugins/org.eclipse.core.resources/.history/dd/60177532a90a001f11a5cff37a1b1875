@@ -1,0 +1,5 @@
+package com.capstonepro.flatbookingservice.service;
+
+public class FlatServiceFallBackFactory {
+
+}

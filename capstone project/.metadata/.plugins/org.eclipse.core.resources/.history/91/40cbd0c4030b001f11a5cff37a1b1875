@@ -1,0 +1,7 @@
+package com.capstonepro.admin.service;
+
+
+FeignClients("landlord-service")
+public interface LandlordServiceConsumer {
+
+}

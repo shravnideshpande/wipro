@@ -1,0 +1,5 @@
+package com.abc.flatrental.entity;
+
+public class Admin {
+
+}

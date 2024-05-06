@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;FlatAddress.java&apos; to &apos;flatrental/src/main/java/com.abc.flatrental.modal&apos;&#x0D;&#x0A;- Original project: &apos;flatrental&apos;&#x0D;&#x0A;- Destination element: &apos;flatrental/src/main/java/com.abc.flatrental.modal&apos;&#x0D;&#x0A;- Original element: &apos;com.abc.flatrental.entity.FlatAddress.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.abc.flatrental.modal" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.abc.flatrental.entity{FlatAddress.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1714327102451" units="1" version="1.0"/>
+</session>

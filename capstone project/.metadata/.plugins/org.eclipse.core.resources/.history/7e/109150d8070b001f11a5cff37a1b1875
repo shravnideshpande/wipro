@@ -1,0 +1,14 @@
+package com.capstonepro.admin.service;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.capstonepro.admin.modal.Flat;
+
+
+@FeignClient(name="flat-service")
+public interface FlatServiceConsumer {
+	@GetMapping("/flats/{id}")
+	Flat getFlatById(@PathVariable("id") int flatId);
+}

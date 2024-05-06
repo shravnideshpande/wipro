@@ -1,0 +1,10 @@
+package com.capstonepro.flatservice.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.capstonepro.flatservice.entity.FlatAddress;
+
+
+public interface FlatAddressRepository extends JpaRepository<FlatAddress,Integer> {
+
+}

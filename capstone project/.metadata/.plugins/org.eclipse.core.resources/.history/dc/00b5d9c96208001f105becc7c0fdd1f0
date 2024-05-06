@@ -1,0 +1,9 @@
+spring.application.name=flatbooking-module
+
+server.port=9191
+spring.datasource.url =jdbc:oracle:thin:@localhost:1521:XE
+spring.datasource.username = c##flatbookingservice
+spring.datasource.password = fbooking123
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto= create

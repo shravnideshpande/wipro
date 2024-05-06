@@ -1,0 +1,7 @@
+package com.capstonepro.flatbookingservice.service;
+
+import org.springframework.cloud.openfeign.FallbackFactory;
+
+public class FlatServiceFallBackFactory implements FallbackFactory<FlatServiceConsumer> {
+
+}

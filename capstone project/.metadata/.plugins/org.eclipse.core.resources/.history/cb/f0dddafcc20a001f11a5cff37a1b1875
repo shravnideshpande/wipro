@@ -1,0 +1,228 @@
+package com.capstonepro.flatbookingservice.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.flatbookingservice.entity.FlatBooking;
+import com.capstonepro.flatbookingservice.exception.BookingModuleNotFoundException;
+import com.capstonepro.flatbookingservice.repository.FlatBookingRepository;
+
+@SpringBootTest(properties = "eureka.client.enabled=false")
+public class FlatBookingServiceTest {
+
+	@InjectMocks
+	private FlatBookingServiceImpl flatBookingService;
+	@Mock
+	private FlatBookingRepository flatBookingRepository;
+
+	@Test
+	public void testAddFlatBooking() {
+
+		FlatBooking flatBookings = new FlatBooking();
+
+		flatBookings.setBookingId(1);
+		flatBookings.setBookingDate(LocalDate.now());
+		flatBookings.setBookingFromDate(LocalDate.of(2024, 05, 06));
+		flatBookings.setBookingToDate(LocalDate.of(2026, 11, 24));
+
+		when(flatBookingRepository.save(flatBookings)).thenReturn(flatBookings);
+
+		FlatBooking addedflatBooking = flatBookingService.saveFlatBooking(flatBookings);
+
+		verify(flatBookingRepository, times(1)).save(flatBookings);
+		assertEquals(flatBookings, addedflatBooking);
+		assertEquals(1, addedflatBooking.getBookingId());
+	}
+
+	@Test
+	public void testGetBookingDetails() {
+		FlatBooking flatBookings = new FlatBooking();
+
+		flatBookings.setBookingId(1);
+		flatBookings.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBookings.setBookingFromDate(LocalDate.of(2024, 06, 01));
+		flatBookings.setBookingToDate(LocalDate.of(2025, 05, 31));
+		flatBookings.setBookingCancleDate(LocalDate.now());
+
+		when(flatBookingRepository.findById(1)).thenReturn(Optional.of(flatBookings));
+		FlatBooking actualObj = flatBookingService.getBookingById(1);
+		assertEquals(LocalDate.of(2024, 05, 05), actualObj.getBookingDate());
+	}
+
+	@Test
+	public void testGetBookingDetailsWithException() {
+
+		FlatBooking flatBookings = new FlatBooking();
+
+		flatBookings.setBookingId(1);
+		flatBookings.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBookings.setBookingFromDate(LocalDate.of(2024, 06, 01));
+		flatBookings.setBookingToDate(LocalDate.of(2025, 05, 31));
+		flatBookings.setBookingCancleDate(LocalDate.now());
+
+		when(flatBookingRepository.findById(2))
+				.thenThrow(new BookingModuleNotFoundException("Booking is not existing with id:2"));
+		assertThrows(BookingModuleNotFoundException.class, () -> flatBookingService.getBookingById(11));
+	}
+
+	@Test
+	public void testGetAllBooking() {
+
+		FlatBooking flatBooking = new FlatBooking();
+
+		flatBooking.setBookingId(1);
+		flatBooking.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking.setBookingFromDate(LocalDate.of(2024, 06, 01));
+		flatBooking.setBookingToDate(LocalDate.of(2025, 05, 31));
+		flatBooking.setBookingCancleDate(LocalDate.now());
+
+		FlatBooking flatBooking1 = new FlatBooking();
+
+		flatBooking.setBookingId(2);
+		flatBooking.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking.setBookingCancleDate(LocalDate.now());
+
+		FlatBooking flatBooking2 = new FlatBooking();
+
+		flatBooking2.setBookingId(3);
+		flatBooking2.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking2.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking2.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking2.setBookingCancleDate(LocalDate.now());
+
+		List<FlatBooking> flatBookings = new ArrayList<>();
+		flatBookings.add(flatBooking);
+		flatBookings.add(flatBooking1);
+		when(flatBookingRepository.findAll()).thenReturn(flatBookings);
+		List<FlatBooking> flatBookingList = flatBookingService.getAllBooking();
+		assertEquals(3, flatBookingList.size());
+
+	}
+
+	@Test
+	public void testUpdateFlatBooking() {
+		FlatBooking flatBooking1 = new FlatBooking();
+		flatBooking1.setBookingId(2);
+		flatBooking1.setBookingDate(LocalDate.now());
+		flatBooking1.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking1.setBookingCancleDate(LocalDate.now());
+
+		when(flatBookingRepository.findById(2)).thenReturn(Optional.of(flatBooking1));
+		when(flatBookingRepository.save(flatBooking1)).thenReturn(flatBooking1);
+
+		flatBooking1.setBookingFromDate(LocalDate.of(2024, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2025, 05, 31));
+
+		FlatBooking updateFlatBooking = flatBookingService.updateFlatBooking(flatBooking1);
+
+		verify(flatBookingRepository, times(1)).findById(2);
+		verify(flatBookingRepository, times(1)).save(flatBooking1);
+		assertEquals(flatBooking1, updateFlatBooking);
+		assertEquals("2024,06,01", updateFlatBooking.getBookingFromDate());
+		assertEquals("2025,05,31", updateFlatBooking.getBookingToDate());
+	}
+
+	@Test
+	public void testDeleteBooking() {
+
+		FlatBooking flatBooking1 = new FlatBooking();
+
+		flatBooking1.setBookingId(2);
+		flatBooking1.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking1.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking1.setBookingCancleDate(LocalDate.now());
+		when(flatBookingRepository.findById(2)).thenReturn(Optional.of(flatBooking1));
+		doNothing().when(flatBookingRepository).delete(flatBooking1);
+
+		flatBookingService.deleteFlatBooking(2);
+		verify(flatBookingRepository, times(1)).findById(1);
+	}
+
+	@Test
+	public void testdeleteBookingWithException() {
+
+		FlatBooking flatBooking1 = new FlatBooking();
+
+		flatBooking1.setBookingId(2);
+		flatBooking1.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking1.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking1.setBookingCancleDate(LocalDate.now());
+
+		when(flatBookingRepository.findById(12))
+				.thenThrow(new BookingModuleNotFoundException("Booking is not existing with id:12"));
+		assertThrows(BookingModuleNotFoundException.class, () -> flatBookingService.deleteFlatBooking(12));
+		verify(flatBookingRepository, times(0)).delete(flatBooking1);
+
+	}
+
+	@Test
+	public void testAcceptBooking() {
+		FlatBooking flatBooking1 = new FlatBooking();
+		flatBooking1.setBookingId(2);
+		flatBooking1.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking1.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking1.setBookingCancleDate(LocalDate.now());
+
+		when(flatBookingRepository.findById(2)).thenReturn(Optional.of(flatBooking1));
+
+		flatBookingService.acceptBooking(2);
+
+		verify(flatBookingRepository, times(1)).findById(2);
+		assertEquals("accept booking", flatBooking1.getBookingStatus());
+	}
+
+	@Test
+	public void testDenyBooking() {
+		FlatBooking flatBooking1 = new FlatBooking();
+
+		flatBooking1.setBookingId(2);
+		flatBooking1.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking1.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking1.setBookingCancleDate(LocalDate.now());
+		when(flatBookingRepository.findById(2)).thenReturn(Optional.of(flatBooking1));
+
+		flatBookingService.denyBooking(2);
+
+		verify(flatBookingRepository, times(1)).findById(2);
+		assertEquals("denied", flatBooking1.getBookingStatus());
+	}
+
+	@Test
+	public void testBookingStatus() {
+		FlatBooking flatBooking1 = new FlatBooking();
+
+		flatBooking1.setBookingId(2);
+		flatBooking1.setBookingDate(LocalDate.of(2024, 05, 05));
+		flatBooking1.setBookingFromDate(LocalDate.of(2025, 06, 01));
+		flatBooking1.setBookingToDate(LocalDate.of(2026, 05, 31));
+		flatBooking1.setBookingCancleDate(LocalDate.now());
+		when(flatBookingRepository.findById(2)).thenReturn(Optional.of(flatBooking1));
+
+		String status = flatBookingService.getBookingStatus(2);
+
+		verify(flatBookingRepository, times(1)).findById(1);
+		assertEquals("accepted", status);
+	}
+
+}

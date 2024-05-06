@@ -1,0 +1,5 @@
+package com.capstonepro.tenantmoduleservice.service;
+
+public class TenantServiceTest {
+
+}

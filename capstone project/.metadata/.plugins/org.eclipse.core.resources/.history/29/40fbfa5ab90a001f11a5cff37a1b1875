@@ -1,0 +1,5 @@
+package com.capstonepro.apigateway.filter;
+
+public class AuthFilter {
+
+}

@@ -1,0 +1,31 @@
+package com.capstonepro.flatbookingservice.service;
+
+import org.springframework.cloud.openfeign.FallbackFactory;
+
+import com.capstonepro.flatbookingservice.model.Flat;
+
+public class FlatServiceFallBackFactory implements FallbackFactory<FlatServiceConsumer> {
+
+	@Override
+	public FlatServiceConsumer create(Throwable cause) {
+		
+		return new FlatServiceConsumer() {
+
+			@Override
+			public Flat getFlatById(int flatId) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public String getFlatData() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		
+		};
+		
+	}
+
+}

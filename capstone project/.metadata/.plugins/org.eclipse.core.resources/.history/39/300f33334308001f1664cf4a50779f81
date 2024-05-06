@@ -1,0 +1,86 @@
+package com.capstonepro.flatbookingservice.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capstonepro.flatbookingservice.entity.FlatBooking;
+import com.capstonepro.flatbookingservice.model.Flat;
+import com.capstonepro.flatbookingservice.model.Tenant;
+import com.capstonepro.flatbookingservice.service.FlatBookingService;
+import com.capstonepro.flatbookingservice.service.FlatServiceConsumer;
+import com.capstonepro.flatbookingservice.service.TenantServiceConsumer;
+
+@RestController
+@RequestMapping("/booking")
+public class FlatBookingController {
+
+	@Autowired
+	private FlatBookingService fbookingService;
+	
+	@Autowired
+	private FlatServiceConsumer flatService;
+	@Autowired
+	private TenantServiceConsumer tenantService;
+
+	@PostMapping("/request")
+	public ResponseEntity<FlatBooking> requestflatBooking(@RequestBody FlatBooking flatBooking) {
+
+		FlatBooking newFBooking = fbookingService.saveFlatBooking(flatBooking);
+		return new ResponseEntity<>(newFBooking, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<FlatBooking> fetchBookingDetails(@PathVariable("id") int bookingId) {
+		FlatBooking fbooking = fbookingService.getBookingById(bookingId);
+		return new ResponseEntity<>(fbooking, HttpStatus.OK);
+	}
+
+	@GetMapping("/all")
+
+	public List<FlatBooking> getAllBookings() {
+
+		List<FlatBooking> fBookingList = fbookingService.getAllBooking();
+		return fBookingList;
+	}
+
+
+	@PostMapping("/accept/{id}")
+	public ResponseEntity<Void> acceptBooking(@PathVariable("id") int bookingId) {
+		fbookingService.acceptBooking(bookingId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping("/deny/{id}")
+	public ResponseEntity<Void> denyBooking(@PathVariable("id") int bookingId) {
+		fbookingService.denyBooking(bookingId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping("/flat/{id}")
+	public ResponseEntity<Flat> getFlatDetails(@PathVariable("id") int flatId) {
+		Flat flat = flatService.getFlatById(flatId);
+		return new ResponseEntity<>(flat, HttpStatus.OK);
+	}
+
+	@GetMapping("/viewtenant/{tenantId}")
+	public ResponseEntity<Tenant> getTenantDetails(@PathVariable("tenantId") int tenantId) {
+		Tenant tenant = tenantService.getTenantDetails(tenantId);
+		return new ResponseEntity<>(tenant, HttpStatus.OK);
+	}
+	
+	@GetMapping("/status/{id}")
+	public ResponseEntity<String> viewBookingStatus(@PathVariable("id") int bookingId) {
+	    String bookingStatus = fbookingService.getBookingStatus(bookingId);
+	    return new ResponseEntity<>(bookingStatus, HttpStatus.OK);
+	}
+
+}

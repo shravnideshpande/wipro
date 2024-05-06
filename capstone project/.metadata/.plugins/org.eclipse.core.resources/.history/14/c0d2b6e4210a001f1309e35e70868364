@@ -1,0 +1,50 @@
+package com.capstonepro.flatservice.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.capstonepro.flatservice.entity.Flat;
+import com.capstonepro.flatservice.entity.FlatAddress;
+import com.capstonepro.flatservice.repository.FlatRepository;
+
+@SpringBootTest
+public class FlatServiceTest {
+
+	@InjectMocks
+	private FlatServiceImpl  flatService;
+	
+	@Mock
+	private FlatRepository flatRepository;
+	
+	@Test
+	public void testSaveFlat() {
+		Flat flats = new Flat();
+		FlatAddress flatAddress = new FlatAddress();
+		flats.setFlatId(101);
+		flats.setFlatCost(20000);
+		flats.setAvailabilityStatus("Available");
+		flats.setLandlordId(1);
+
+		flatAddress.setAddressId(101);
+		flatAddress.setCityName("Abd");
+		flatAddress.setHouseNum(1);
+		flatAddress.setLane("XYZ");
+		flatAddress.setStateName("ABC");
+		flatAddress.setCountryName("MNP");
+		flatAddress.setDisPin(105457);
+
+		when(flatRepository.save(flats)).thenReturn(flats);
+		Flat saveFlat = flatService.saveFlat(flats);
+		verify(flatRepository, times(1)).save(saveFlats);
+		assertEquals(flats.getFlatId(), flats.getFlatId());
+		assertNotNull(saveFlat);
+	}
+}

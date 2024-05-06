@@ -1,0 +1,13 @@
+package com.capstonepro.admin.modal;
+
+import java.time.LocalDate;
+
+public class Landlord {
+
+	private int landlordId;
+	private String landlordFirstName;
+	private String landlordLastName;
+	private int age;
+	private String contactNum;
+    private LocalDate dob;
+}

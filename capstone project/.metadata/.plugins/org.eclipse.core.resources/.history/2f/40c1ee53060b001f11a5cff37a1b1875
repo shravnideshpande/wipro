@@ -1,0 +1,5 @@
+package com.capstonepro.admin.service;
+
+public interface LandlordServiceConsumer {
+
+}

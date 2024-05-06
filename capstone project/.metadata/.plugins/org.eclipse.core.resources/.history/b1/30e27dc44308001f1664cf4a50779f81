@@ -1,0 +1,22 @@
+package com.capstonepro.tenantservice.service;
+
+import java.util.List;
+
+import com.capstonepro.tenantservice.entity.Tenant;
+import com.capstonepro.tenantservice.model.FlatBooking;
+
+public interface TenantService {
+	
+	Tenant saveTenant(Tenant tenant);
+
+	void deleteTenant(int tenantId);
+
+	Tenant getTenantById(int tenantId);
+
+	List<Tenant> getAllTenants();
+
+	
+	FlatBooking addBooking(FlatBooking flatBooking);
+	
+	String getBookingStatus(int bookingId);
+}

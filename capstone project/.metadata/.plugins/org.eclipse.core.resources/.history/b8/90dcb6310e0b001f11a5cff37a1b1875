@@ -1,0 +1,124 @@
+package com.capstonepro.admin.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.capstonepro.admin.modal.Flat;
+import com.capstonepro.admin.modal.Landlord;
+import com.capstonepro.admin.modal.Tenant;
+import com.capstonepro.admin.service.FlatBookingConsumer;
+import com.capstonepro.admin.service.FlatServiceConsumer;
+import com.capstonepro.admin.service.LandlordServiceConsumer;
+import com.capstonepro.admin.service.TenantServiceConsumer;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+	
+	@Autowired
+ private FlatServiceConsumer flatService;
+	
+	@Autowired
+	private LandlordServiceConsumer landlordService;
+	
+	@Autowired
+	private TenantServiceConsumer tenantService;
+	
+	@Autowired
+	private FlatBookingConsumer flatBookingService;
+	
+
+	@PostMapping("/flats/save")
+	public ResponseEntity<Flat> addflatBooking(@RequestBody Flat flat) {
+           flatService.addFlat(flat);
+		return new ResponseEntity<>(flat, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/flats/{id}")
+	public ResponseEntity<Flat> getflatDetails(@PathVariable("id") int flatId){
+		Flat flat = flatService.getFlatById(flatId);
+		return new ResponseEntity<>(flat,HttpStatus.OK);
+	}	
+	
+	@PutMapping("/flats/update")
+	public ResponseEntity<Flat> updateFlat(@RequestBody Flat flat) {
+		flatService.updateFlat(flat);
+		ResponseEntity<Flat> responseEntity = new ResponseEntity<>(flat,HttpStatus.CREATED);
+		return responseEntity;
+	}
+	
+	@DeleteMapping("/flats/delete/{id}")
+	public ResponseEntity<Void> deleteFlat(@PathVariable("id")  int flatId){
+		flatService.deleteFlat(flatId);
+		ResponseEntity<Void> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		return responseEntity;
+	}
+	@GetMapping("flats/all")
+	public List<Flat> fetchAllFlats(){
+		List<Flat> flats = flatService.viewAllFlat();
+		return flats;
+	}
+	
+	@PostMapping("/landlord/save")
+	public ResponseEntity<Landlord> addLandlord( @RequestBody Landlord landlord) {
+		landlordService.addLandlord(landlord);
+		ResponseEntity<Landlord> responseEntity = new ResponseEntity<>(landlord, HttpStatus.CREATED);
+		return responseEntity;
+	}
+	@PutMapping("/lanlord/update")
+	public ResponseEntity<Landlord> updateLandlord(@Valid @RequestBody Landlord landlord) {
+		landlordService.updateLandlord(landlord);
+		ResponseEntity<Landlord> responseEntity = new ResponseEntity<>(landlord, HttpStatus.CREATED);
+		return responseEntity;
+	}
+	@GetMapping("/landlord/all")
+	public List<Landlord> fetchAllLandlords() {
+		List<Landlord> landlords = landlordService.getAllLandlord();
+		return landlords;
+	}
+	@DeleteMapping("/landlord/{id}")
+	public ResponseEntity<Void> deleteLandlord(@PathVariable("id") int landlordId) {
+		landlordService.deleteLandlord(landlordId);
+		ResponseEntity<Void> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		return responseEntity;
+	}
+	
+	@PostMapping("/tenants/save")
+	public ResponseEntity<Tenant> addTenant(@Valid @RequestBody Tenant tenant) {
+		tenantService.addTenant(tenant);
+		ResponseEntity<Tenant> responseEntity = new ResponseEntity<>(tenant, HttpStatus.CREATED);
+		return responseEntity;
+	}
+	@GetMapping("/tenants/all")
+	public List<Tenant> viewAllTenants() {
+		List<Tenant> tenants = tenantService.viewAllTenant();
+		return tenants;
+	}
+	
+	@PutMapping("/tenants/update")
+	public ResponseEntity<Tenant> updateTenant(@Valid @RequestBody Tenant tenant) {
+		tenantService.updateTenant(tenant);
+		ResponseEntity<Tenant> responseEntity = new ResponseEntity<>(tenant, HttpStatus.CREATED);
+		return responseEntity;
+	}
+	@DeleteMapping("/tenants/delete/{id}")
+	public ResponseEntity<Void> deleteTenant(@PathVariable("id") int tenantId) {
+		tenantService.deleteTenant(tenantId);
+		ResponseEntity<Void> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		return responseEntity;
+	}
+
+}

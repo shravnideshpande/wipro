@@ -1,0 +1,31 @@
+package com.capstonepro.admin.service;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.capstonepro.admin.modal.Landlord;
+
+
+@FeignClient(name="LANDLORD-SERVICE")
+public interface LandlordServiceConsumer {
+
+	@PostMapping("/landlord/save")
+	Landlord addLandlord(@RequestBody Landlord landlord);
+	
+	@PutMapping("/lanlord/update")
+	Landlord updateLandlord(@RequestBody Landlord landlord);
+	
+	@GetMapping("/landlord/all")
+	List<Landlord> getAllLandlord();
+	
+	@DeleteMapping("/delete")
+	void deleteLandlord(int landlordId);
+	
+	
+}

@@ -1,0 +1,21 @@
+package com.capstonepro.admin.service;
+
+import java.util.List;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.capstonepro.admin.modal.FlatBooking;
+
+@FeignClient("FLATBOOKING-SERVICE")
+public interface FlatBookingConsumer {
+
+	 @PostMapping("/fbooking/denybooking/{id}")
+	    FlatBooking denyBooking(@PathVariable("id") int bookingId);
+	 
+	 @GetMapping("/all")
+	 List<FlatBooking> viewAllBooking();
+	    
+}
